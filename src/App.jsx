@@ -4,7 +4,7 @@ import {
   FileText, Award, Database, Brain, LineChart, Settings, Moon, Sun, 
   Globe, Palette, GraduationCap, PenTool, X, Instagram, Gamepad2, Sparkles, Terminal, RefreshCw, MousePointerClick
 } from 'lucide-react';
-
+import fotoBubu from './public/foto-profil.jpg'; 
 // === KAMUS BAHASA (i18n) ===
 const translations = {
   id: {
@@ -755,11 +755,11 @@ const App = () => {
 
                     {/* Foto Profil - Rasio 4:5 (144px x 180px), Sudut Sedikit Melengkung */}
                     <div className="relative w-[144px] h-[180px] rounded-2xl border-[6px] border-white dark:border-neutral-800 overflow-hidden bg-slate-100 shadow-lg mb-3 z-20 shrink-0">
-                      <img
-                        src="/foto-profil.jpg"
+                      <img 
+                        src={fotoBubu} 
                         alt="Foto Profil Saya" 
                         className="w-full h-full object-cover pointer-events-none" 
-                        draggable="false"
+                        draggable="false" 
                       />
                     </div>
                     {/* Nama Lengkap */}
