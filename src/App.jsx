@@ -244,7 +244,6 @@ const App = () => {
   // --- Static Barcode Generation ---
   const barcodeLines = useMemo(() => Array.from({ length: 18 }, () => Math.floor(Math.random() * 5) + 2), []);
 
-
   // --- Fisika Interaksi ID Card (Spring Pendulum) ---
   const [cardTransform, setCardTransform] = useState({ x: 0, y: 0, r: 0 });
   const isDraggingCard = useRef(false);
@@ -774,14 +773,13 @@ const App = () => {
                       </span>
                     </div>
 
-                    {/* Barcode Statis (Garis Lancip) & Nomor Acak di Bawah */}
-                    <div className="w-full mt-auto border-t border-slate-100 dark:border-neutral-800 flex flex-col justify-center items-center pt-3 pb-2">
-                      <div className="flex items-center gap-[3px] h-7">
+                    {/* Barcode Statis (Garis Lancip) Tanpa Teks Angka */}
+                    <div className="w-full mt-auto border-t border-slate-100 dark:border-neutral-800 flex flex-col justify-center items-center pt-4 pb-4">
+                      <div className="flex items-center gap-[3px] h-8">
                         {barcodeLines.map((width, i) => (
                           <div key={i} className="h-full bg-slate-800 dark:bg-slate-300" style={{ width: `${width}px` }}></div>
                         ))}
                       </div>
-                      <span className="text-[10px] font-bold text-slate-500 tracking-widest mt-1.5 leading-none">ID-{barcodeNumber}</span>
                     </div>
                   </div>
 
