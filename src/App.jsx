@@ -243,7 +243,7 @@ const App = () => {
 
   // --- Static Barcode Generation ---
   const barcodeLines = useMemo(() => Array.from({ length: 18 }, () => Math.floor(Math.random() * 5) + 2), []);
-  const barcodeNumber = useMemo(() => Array.from({ length: 10 }, () => Math.floor(Math.random() * 10)).join(''), []);
+
 
   // --- Fisika Interaksi ID Card (Spring Pendulum) ---
   const [cardTransform, setCardTransform] = useState({ x: 0, y: 0, r: 0 });
