@@ -228,7 +228,7 @@ const App = () => {
     // Buat link mailto ke email Anda
     const mailtoLink = `mailto:bbukhori80@gmail.com?subject=${encodeURIComponent(subject || 'Pesan dari Portofolio Bubu')}&body=${mailtoBody}`;
     
-    // Buka aplikasi email default pengguna
+    // Buka aplikasi email default user
     window.location.href = mailtoLink;
   };
 
@@ -756,7 +756,7 @@ const App = () => {
                     {/* Foto Profil - Rasio 4:5 (144px x 180px), Sudut Sedikit Melengkung */}
                     <div className="relative w-[144px] h-[180px] rounded-2xl border-[6px] border-white dark:border-neutral-800 overflow-hidden bg-slate-100 shadow-lg mb-3 z-20 shrink-0">
                       <img 
-                        src="/images/foto-profil.jpg" 
+                        src="/foto-profil.jpg" 
                         alt="Foto Profil Saya" 
                         className="w-full h-full object-cover pointer-events-none" 
                         draggable="false" 
