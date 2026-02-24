@@ -755,14 +755,13 @@ const App = () => {
 
                     {/* Foto Profil - Rasio 4:5 (144px x 180px), Sudut Sedikit Melengkung */}
                     <div className="relative w-[144px] h-[180px] rounded-2xl border-[6px] border-white dark:border-neutral-800 overflow-hidden bg-slate-100 shadow-lg mb-3 z-20 shrink-0">
-                      <img
+                      <images
                         src="/imagesfoto-profil.png" 
                         alt="Foto Profil Saya" 
                         className="w-full h-full object-cover pointer-events-none" 
                         draggable="false"
                       />
                     </div>
-                      // hh
                     {/* Nama Lengkap */}
                     <h3 className="font-black text-xl text-slate-900 dark:text-white text-center px-4 leading-tight">Bubu Bukhori Muslim</h3>
                     
