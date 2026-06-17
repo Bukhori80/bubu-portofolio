@@ -8,7 +8,7 @@ const fotoBubu = '/foto-profil.jpg';
 // === KAMUS BAHASA (i18n) ===
 const translations = {
   id: {
-    nav: { home: 'Beranda', about: 'Profil', services: 'Layanan', edu: 'Pendidikan', project: 'Proyek', cert: 'Sertifikasi', contact: 'Kontak' },
+    nav: { logo: 'Selamat datang', home: 'Beranda', about: 'Profil', services: 'Layanan', edu: 'Pendidikan', project: 'Proyek', cert: 'Sertifikasi', contact: 'Kontak' },
     settings: { title: 'Pengaturan', theme: 'Mode Tema', lang: 'Bahasa' },
     roles: ["Data Scientist", "Mahasiswa Teknik Informatika", "Desainer Grafis"],
     splash: { welcome: 'Selamat Datang di Portofolio' },
@@ -16,7 +16,7 @@ const translations = {
     comingSoon: 'Segera Hadir',
     hero: {
       greeting: 'Halo, saya',
-      desc: 'Bagi saya, data bukan sekadar angka, melainkan cerita yang perlu dipahami dan divisualisasikan. Saya tertarik pada Data Science, Artificial Intelligence (AI), dan Desain Grafis, menggabungkan analisis data dan kreativitas visual untuk mengubah informasi kompleks menjadi insight yang bernilai dan mudah dipahami.',
+      desc: 'Berfokus pada Data Science, Machine Learning, Artificial Intelligence, dan Desain Grafis dengan pengalaman dalam analisis data, pengembangan model AI, visualisasi data, serta pembuatan desain visual untuk menyampaikan informasi secara efektif dan menarik.',
       btnProject: 'Eksplorasi Project',
       btnCV: 'Lihat CV',
     },
@@ -87,7 +87,7 @@ const translations = {
     }
   },
   en: {
-    nav: { home: 'Home', about: 'Profile', services: 'Services', edu: 'Experience', project: 'Projects', cert: 'Certifications', contact: 'Contact' },
+    nav: { logo: 'Welcome', home: 'Home', about: 'Profile', services: 'Services', edu: 'Experience', project: 'Projects', cert: 'Certifications', contact: 'Contact' },
     settings: { title: 'Settings', theme: 'Theme Mode', lang: 'Language' },
     roles: ["Data Scientist", "Informatics Engineering Student", "Graphic Designer"],
     splash: { welcome: 'Welcome to the Portfolio of' },
@@ -230,7 +230,7 @@ const App = () => {
   // --- Static Barcode Generation ---
   const barcodeLines = useMemo(() => Array.from({ length: 18 }, () => Math.floor(Math.random() * 5) + 2), []);
 
-  // --- Fisika Interaksi ID Card (Spring Pendulum + 3D Physics & Hover) ---
+  // --- Fisika Interaksi ID Card (Spring Pendulum + 3D Physics) ---
   const [cardTransform, setCardTransform] = useState({
     x: 0,
     y: 0,
@@ -240,18 +240,58 @@ const App = () => {
     hoverRx: 0,
     hoverRy: 0
   });
-
   const isDraggingCard = useRef(false);
   const dragStart = useRef({ x: 0, y: 0 });
-  const dragTarget = useRef({ x: 0, y: 0 });
   const cardPos = useRef({ x: 0, y: 0, r: 0, rx: 0, ry: 0 });
   const cardVel = useRef({ x: 0, y: 0, r: 0, rx: 0, ry: 0 });
-  const phase = useRef("SWING"); // Starts directly in swing/hover phase
 
-  const isHoveringCard = useRef(false);
-  const hoverTarget = useRef({ rx: 0, ry: 0 });
-  const cardTransformRef = useRef({ x: 0, y: 0, r: 0, rx: 0, ry: 0, hoverRx: 0, hoverRy: 0 });
-  const rafRef = useRef(null);
+  const springBack = () => {
+    if (isDraggingCard.current) return;
+
+    // Physics parameters for smooth pendulum decay (original values)
+    const tension = 0.04;
+    const friction = 0.82; // Higher friction so it does not bounce repeatedly
+
+    const fx = -cardPos.current.x * tension;
+    const fy = -cardPos.current.y * tension;
+    const fr = -cardPos.current.r * tension;
+    const frx = -cardPos.current.rx * tension;
+    const fry = -cardPos.current.ry * tension;
+
+    cardVel.current.x = (cardVel.current.x + fx) * friction;
+    cardVel.current.y = (cardVel.current.y + fy) * friction;
+    cardVel.current.r = (cardVel.current.r + fr) * friction;
+    cardVel.current.rx = (cardVel.current.rx + frx) * friction;
+    cardVel.current.ry = (cardVel.current.ry + fry) * friction;
+
+    cardPos.current.x += cardVel.current.x;
+    cardPos.current.y += cardVel.current.y;
+    cardPos.current.r += cardVel.current.r;
+    cardPos.current.rx += cardVel.current.rx;
+    cardPos.current.ry += cardVel.current.ry;
+
+    setCardTransform({
+      ...cardPos.current,
+      hoverRx: 0,
+      hoverRy: 0
+    });
+
+    // Loop animation until card settles back at 0 with small tolerance
+    if (
+      Math.abs(cardPos.current.x) > 0.05 ||
+      Math.abs(cardPos.current.y) > 0.05 ||
+      Math.abs(cardPos.current.r) > 0.05 ||
+      Math.abs(cardPos.current.rx) > 0.05 ||
+      Math.abs(cardPos.current.ry) > 0.05 ||
+      Math.abs(cardVel.current.x) > 0.05 ||
+      Math.abs(cardVel.current.y) > 0.05
+    ) {
+      requestAnimationFrame(springBack);
+    } else {
+      cardPos.current = { x: 0, y: 0, r: 0, rx: 0, ry: 0 };
+      setCardTransform({ x: 0, y: 0, r: 0, rx: 0, ry: 0, hoverRx: 0, hoverRy: 0 });
+    }
+  };
 
   const handleCardPointerDown = (e) => {
     const clientX = e.clientX || (e.touches && e.touches[0].clientX);
@@ -264,90 +304,53 @@ const App = () => {
       x: clientX - cardPos.current.x,
       y: clientY - cardPos.current.y
     };
-    dragTarget.current = {
-      x: cardPos.current.x,
-      y: cardPos.current.y
-    };
     cardVel.current = { x: 0, y: 0, r: 0, rx: 0, ry: 0 };
   };
 
   useEffect(() => {
-    const tick = () => {
-      // 1. Physics Calculations (SWING or DRAG)
-      let targetX = 0;
-      let targetY = 0;
-      let tension = 0.028;    // Swing tension
-      const friction = 0.958; // Air resistance / damping
+    const handlePointerMove = (e) => {
+      if (!isDraggingCard.current) return;
 
-      if (isDraggingCard.current) {
-        targetX = dragTarget.current.x;
-        targetY = dragTarget.current.y;
-        tension = 0.16; // String tension to cursor
+      const clientX = e.clientX || (e.touches && e.touches[0].clientX);
+      const clientY = e.clientY || (e.touches && e.touches[0].clientY);
+      if (clientX === undefined) return;
 
-        const dragFriction = 0.72; // Smooth drag trails
-        cardVel.current.x = (cardVel.current.x + (targetX - cardPos.current.x) * tension) * dragFriction;
-        cardVel.current.y = (cardVel.current.y + (targetY - cardPos.current.y) * tension) * dragFriction;
-      } else {
-        // Swing back to center
-        cardVel.current.x = (cardVel.current.x - cardPos.current.x * tension) * friction;
-        cardVel.current.y = (cardVel.current.y - cardPos.current.y * tension) * friction;
-      }
+      const x = clientX - dragStart.current.x;
+      const y = clientY - dragStart.current.y;
 
-      cardPos.current.x += cardVel.current.x;
-      cardPos.current.y += cardVel.current.y;
+      // Allow rotation in any direction based on translation offset (original)
+      const r = Math.max(-25, Math.min(25, x * 0.1));
+      const ry = Math.max(-30, Math.min(30, x * -0.15));
+      const rx = Math.max(-30, Math.min(30, y * 0.15));
 
-      if (isDraggingCard.current) {
-        // Dynamic rotations based on drag position and movement speed
-        cardPos.current.r = cardPos.current.x * 0.08;
-        cardPos.current.ry = -cardVel.current.x * 1.6;
-        cardPos.current.rx = cardVel.current.y * 1.6;
-      } else {
-        // Oscillation updates
-        cardVel.current.r = (cardVel.current.r - cardPos.current.r * tension) * friction;
-        cardVel.current.rx = (cardVel.current.rx - cardPos.current.rx * tension) * friction;
-        cardVel.current.ry = (cardVel.current.ry - cardPos.current.ry * tension) * friction;
-
-        cardPos.current.r += cardVel.current.r;
-        cardPos.current.rx += cardVel.current.rx;
-        cardPos.current.ry += cardVel.current.ry;
-      }
-
-      // Hard limits to prevent excessive visual clipping
-      cardPos.current.rx = Math.max(-50, Math.min(50, cardPos.current.rx));
-      cardPos.current.ry = Math.max(-50, Math.min(50, cardPos.current.ry));
-      cardPos.current.r = Math.max(-45, Math.min(45, cardPos.current.r));
-
-      // 2. Hover Calculation (Smooth transition)
-      let targetHoverRx = 0;
-      let targetHoverRy = 0;
-      if (isHoveringCard.current && !isDraggingCard.current) {
-        targetHoverRx = hoverTarget.current.rx;
-        targetHoverRy = hoverTarget.current.ry;
-      }
-
-      const lerpSpeed = 0.12;
-      const hoverRx = cardTransformRef.current.hoverRx + (targetHoverRx - cardTransformRef.current.hoverRx) * lerpSpeed;
-      const hoverRy = cardTransformRef.current.hoverRy + (targetHoverRy - cardTransformRef.current.hoverRy) * lerpSpeed;
-
-      const nextTransform = {
-        x: cardPos.current.x,
-        y: cardPos.current.y,
-        r: cardPos.current.r,
-        rx: cardPos.current.rx,
-        ry: cardPos.current.ry,
-        hoverRx,
-        hoverRy
-      };
-
-      cardTransformRef.current = nextTransform;
-      setCardTransform(nextTransform);
-
-      rafRef.current = requestAnimationFrame(tick);
+      cardPos.current = { x, y, r, rx, ry };
+      setCardTransform({
+        x,
+        y,
+        r,
+        rx,
+        ry,
+        hoverRx: 0,
+        hoverRy: 0
+      });
     };
 
-    rafRef.current = requestAnimationFrame(tick);
+    const handlePointerUp = () => {
+      if (!isDraggingCard.current) return;
+      isDraggingCard.current = false;
+      requestAnimationFrame(springBack);
+    };
+
+    window.addEventListener('mousemove', handlePointerMove);
+    window.addEventListener('mouseup', handlePointerUp);
+    window.addEventListener('touchmove', handlePointerMove, { passive: false });
+    window.addEventListener('touchend', handlePointerUp);
+
     return () => {
-      if (rafRef.current) cancelAnimationFrame(rafRef.current);
+      window.removeEventListener('mousemove', handlePointerMove);
+      window.removeEventListener('mouseup', handlePointerUp);
+      window.removeEventListener('touchmove', handlePointerMove);
+      window.removeEventListener('touchend', handlePointerUp);
     };
   }, []);
 
@@ -555,10 +558,10 @@ const App = () => {
         <div className="relative z-10">
 
           {/* Navigasi */}
-          <nav className={`fixed w-full top-0 z-40 transition-all duration-300 ${scrolled ? 'glass-nav py-4' : 'bg-transparent py-6'}`}>
+          <nav className="fixed w-full top-0 z-40 transition-all duration-300 glass-nav py-4">
             <div className="max-w-6xl mx-auto px-6 flex justify-between items-center">
-              <a href="#" className={`text-xl font-black tracking-wider text-transparent bg-clip-text ${textGradientClass}`}>
-                Bubu Bukhori Muslim
+              <a href="#" className="text-xl font-black tracking-wider bg-gradient-to-r from-[#1883FF] via-[#0051b3] to-[#1883FF] dark:from-[#1883FF] dark:via-white dark:to-[#1883FF] bg-clip-text text-transparent animate-gradient-text">
+                {t.nav.logo}
               </a>
               <div className="hidden md:flex space-x-8 text-sm font-bold text-slate-600 dark:text-slate-300">
                 <a href="#beranda" className={`hover:${textAccentClass} transition-colors`}>{t.nav.home}</a>
@@ -587,7 +590,8 @@ const App = () => {
                     transformStyle: 'preserve-3d',
                     perspective: '1000px',
                     touchAction: 'none',
-                    transformOrigin: 'center -250px' // Ayunan seperti pendulum yang digantung dari atas
+                    transformOrigin: 'center -250px', // Ayunan seperti pendulum yang digantung dari atas
+                    transition: (isDraggingCard.current || cardTransform.x !== 0 || cardTransform.y !== 0 || cardTransform.r !== 0 || cardTransform.rx !== 0 || cardTransform.ry !== 0) ? 'none' : 'transform 0.35s cubic-bezier(0.25, 0.8, 0.25, 1)'
                   }}
                   onMouseDown={handleCardPointerDown}
                   onTouchStart={handleCardPointerDown}
@@ -605,7 +609,7 @@ const App = () => {
                   </div>
 
                   {/* Bodi Kartu ID - Ratio 4:5 (280x350) */}
-                  <div 
+                  <div
                     className="relative w-full h-[350px] bg-white dark:bg-neutral-900 rounded-2xl border border-slate-200 dark:border-neutral-800 shadow-[0_20px_50px_rgba(0,0,0,0.2)] dark:shadow-[0_20px_50px_rgba(0,0,0,0.6)] overflow-hidden z-10 flex flex-col items-center pt-14 pb-4"
                     onPointerMove={(e) => {
                       if (isDraggingCard.current) return;
@@ -614,25 +618,29 @@ const App = () => {
                       const py = e.clientY - rect.top;
                       const normalizedX = (px / rect.width) * 2 - 1;
                       const normalizedY = (py / rect.height) * 2 - 1;
-                      hoverTarget.current = {
-                        rx: -normalizedY * 18, // Max tilt pitch
-                        ry: normalizedX * 18   // Max tilt yaw
-                      };
-                      isHoveringCard.current = true;
+                      setCardTransform(prev => ({
+                        ...prev,
+                        hoverRx: -normalizedY * 18, // Max tilt pitch
+                        hoverRy: normalizedX * 18   // Max tilt yaw
+                      }));
                     }}
                     onPointerLeave={() => {
-                      isHoveringCard.current = false;
-                      hoverTarget.current = { rx: 0, ry: 0 };
+                      setCardTransform(prev => ({
+                        ...prev,
+                        hoverRx: 0,
+                        hoverRy: 0
+                      }));
                     }}
                   >
 
                     {/* Gloss / Glare / Light Reflection Effect */}
-                    <div 
+                    <div
                       className="absolute inset-0 pointer-events-none z-30 transition-opacity duration-300 opacity-60 dark:opacity-45"
                       style={{
                         background: `linear-gradient(${135 + ry * 2}deg, rgba(255,255,255,0) 20%, rgba(255,255,255,0.18) 45%, rgba(255,255,255,0.28) 50%, rgba(255,255,255,0.18) 55%, rgba(255,255,255,0) 80%)`,
                         transform: `translateX(${ry * 1.5}px) translateY(${rx * 1.5}px)`,
-                        mixBlendMode: 'overlay'
+                        mixBlendMode: 'overlay',
+                        transition: (isDraggingCard.current || cardTransform.x !== 0 || cardTransform.y !== 0 || cardTransform.r !== 0 || cardTransform.rx !== 0 || cardTransform.ry !== 0) ? 'none' : 'transform 0.35s cubic-bezier(0.25, 0.8, 0.25, 1)'
                       }}
                     />
 
@@ -689,12 +697,12 @@ const App = () => {
                 </p>
                 <div className="flex flex-col sm:flex-row gap-4 justify-center">
                   {/* Tombol Eksplorasi dengan Gaya Glow Merah Baru */}
-                  <a href="#proyek" className={`px-8 py-3.5 rounded-full font-bold transition-all ${primaryBtnClass}`}>
+                  <a href="#proyek" className={`px-6 py-2.5 rounded-xl text-sm font-bold transition-all ${primaryBtnClass}`}>
                     {t.hero.btnProject}
                   </a>
                   {/* Link ke CV di folder public */}
-                  <a href="/cv-bubu.pdf" target="_blank" rel="noreferrer" className={`px-8 py-3.5 rounded-full glass-panel text-slate-800 dark:text-slate-200 font-bold transition-all flex items-center justify-center gap-2 group ${borderHoverClass}`}>
-                    <FileText size={18} className={`${textAccentClass} group-hover:scale-110 transition-transform`} /> {t.hero.btnCV}
+                  <a href="/cv-bubu.pdf" target="_blank" rel="noreferrer" className={`px-6 py-2.5 rounded-xl text-sm glass-panel text-slate-800 dark:text-slate-200 font-bold transition-all flex items-center justify-center gap-2 group ${borderHoverClass}`}>
+                    <FileText size={16} className={`${textAccentClass} group-hover:scale-110 transition-transform`} /> {t.hero.btnCV}
                   </a>
                 </div>
               </div>
