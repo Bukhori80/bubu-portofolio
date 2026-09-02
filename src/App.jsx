@@ -18,7 +18,7 @@ const translations = {
       greeting: 'Halo, saya',
       desc: 'Berfokus pada Data Science, Machine Learning, Artificial Intelligence, dan Desain Grafis dengan pengalaman dalam analisis data, pengembangan model AI, visualisasi data, serta pembuatan desain visual untuk menyampaikan informasi secara efektif dan menarik.',
       btnProject: 'Eksplorasi Project',
-      btnCV: 'Lihat CV',
+      btnCV: 'Lihat Resume'
     },
     about: {
       title: 'Profil Singkat',
@@ -97,7 +97,7 @@ const translations = {
       greeting: 'Hello, I am',
       desc: 'To me, data is more than just numbers; it\'s a story that needs to be understood and visualized. I am interested in Data Science, Artificial Intelligence (AI), and Graphic Design, combining data analysis and visual creativity to turn complex information into valuable and easily understood insights.',
       btnProject: 'Explore Projects',
-      btnCV: 'View CV',
+      btnCV: 'View Resume',
     },
     about: {
       title: 'Short Profile',
@@ -436,12 +436,12 @@ const App = () => {
 
 
 
-  // CSS Variabel untuk Blue & Black/White
-  const bgAccentClass = "bg-[#1883FF] hover:bg-[#0070f3] text-white transition-colors duration-300";
-  const primaryBtnClass = "bg-[#1883FF] hover:bg-[#0070f3] text-white shadow-[0_4px_14px_rgba(24,131,255,0.4)] hover:shadow-[0_6px_20px_rgba(24,131,255,0.6)] transition-all duration-300";
-  const textAccentClass = "text-[#1883FF]";
-  const borderHoverClass = "hover:border-[#1883FF]/50";
-  const textGradientClass = "bg-gradient-to-r from-[#1883FF] to-[#0051b3]";
+  // CSS Variabel untuk Apple Light Interface
+  const bgAccentClass = "bg-[#0066cc] dark:bg-[#2997ff] text-white dark:text-black hover:opacity-90 transition-all duration-[200ms] ease-[cubic-bezier(0.4,0,0.6,1)]";
+  const primaryBtnClass = "bg-[#0066cc] dark:bg-[#2997ff] text-white dark:text-black shadow-md hover:shadow-lg transition-all duration-[200ms] ease-[cubic-bezier(0.4,0,0.6,1)] rounded-[980px]";
+  const textAccentClass = "text-[#0066cc] dark:text-[#2997ff]";
+  const borderHoverClass = "hover:border-[#0066cc]/50 dark:hover:border-[#2997ff]/50";
+  const textGradientClass = "bg-gradient-to-r from-[#0066cc] to-[#2997ff]";
 
   // Combined transform variables for ID card (physics + hover)
   const rx = (cardTransform.rx || 0) + (cardTransform.hoverRx || 0);
@@ -453,31 +453,31 @@ const App = () => {
 
 
       {/* Background Latar Utama */}
-      <div className="min-h-screen bg-white dark:bg-black text-slate-900 dark:text-slate-100 font-sans transition-colors duration-500 relative overflow-x-hidden selection:bg-blue-600/20 dark:selection:bg-blue-500/30">
+      <div className="min-h-screen bg-[#f5f5f7] dark:bg-black text-[#1d1d1f] dark:text-[#ffffff] font-body transition-colors duration-[200ms] ease-[cubic-bezier(0.4,0,0.6,1)] relative overflow-x-hidden selection:bg-[#0066cc]/20 dark:selection:bg-[#2997ff]/30">
 
         {/* CSS Custom */}
         <style dangerouslySetInnerHTML={{
           __html: `
           .glass-nav {
-            background: ${isDark ? 'rgba(10, 10, 10, 0.4)' : 'rgba(255, 255, 255, 0.4)'};
+            background: ${isDark ? 'rgba(0, 0, 0, 0.4)' : 'rgba(245, 245, 247, 0.65)'};
             backdrop-filter: blur(16px);
             -webkit-backdrop-filter: blur(16px);
-            border-bottom: 1px solid ${isDark ? 'rgba(255, 255, 255, 0.06)' : 'rgba(255, 255, 255, 0.4)'};
+            border-bottom: 1px solid ${isDark ? 'rgba(255, 255, 255, 0.06)' : 'rgba(29, 29, 31, 0.08)'};
             box-shadow: 0 4px 30px rgba(0, 0, 0, 0.03);
           }
           .glass-panel {
-            background: ${isDark ? 'rgba(15, 15, 15, 0.35)' : 'rgba(255, 255, 255, 0.35)'};
+            background: ${isDark ? 'rgba(15, 15, 15, 0.35)' : 'rgba(245, 245, 247, 0.45)'};
             backdrop-filter: blur(20px);
             -webkit-backdrop-filter: blur(20px);
-            border: 1px solid ${isDark ? 'rgba(255, 255, 255, 0.08)' : 'rgba(255, 255, 255, 0.45)'};
-            box-shadow: 0 8px 32px ${isDark ? 'rgba(0, 0, 0, 0.25)' : 'rgba(31, 38, 135, 0.03)'};
+            border: 1px solid ${isDark ? 'rgba(255, 255, 255, 0.08)' : 'rgba(29, 29, 31, 0.09)'};
+            box-shadow: 0 8px 32px ${isDark ? 'rgba(0, 0, 0, 0.25)' : 'rgba(29, 29, 31, 0.03)'};
           }
           .glass-card {
-            background: ${isDark ? 'linear-gradient(135deg, rgba(20, 20, 20, 0.4) 0%, rgba(10, 10, 10, 0.5) 100%)' : 'linear-gradient(135deg, rgba(255, 255, 255, 0.4) 0%, rgba(255, 255, 255, 0.2) 100%)'};
+            background: ${isDark ? 'linear-gradient(135deg, rgba(20, 20, 20, 0.4) 0%, rgba(10, 10, 10, 0.5) 100%)' : 'linear-gradient(135deg, rgba(245, 245, 247, 0.55) 0%, rgba(245, 245, 247, 0.3) 100%)'};
             backdrop-filter: blur(16px);
             -webkit-backdrop-filter: blur(16px);
-            border: 1px solid ${isDark ? 'rgba(255, 255, 255, 0.06)' : 'rgba(255, 255, 255, 0.35)'};
-            box-shadow: 0 8px 32px 0 ${isDark ? 'rgba(0, 0, 0, 0.2)' : 'rgba(31, 38, 135, 0.02)'};
+            border: 1px solid ${isDark ? 'rgba(255, 255, 255, 0.06)' : 'rgba(29, 29, 31, 0.08)'};
+            box-shadow: 0 8px 32px 0 ${isDark ? 'rgba(0, 0, 0, 0.2)' : 'rgba(29, 29, 31, 0.02)'};
           }
           
           /* Menyembunyikan Scrollbar untuk JS Marquee */
@@ -560,7 +560,7 @@ const App = () => {
           {/* Navigasi */}
           <nav className="fixed w-full top-0 z-40 transition-all duration-300 glass-nav py-4">
             <div className="max-w-6xl mx-auto px-6 flex justify-between items-center">
-              <a href="#" className="text-xl font-black tracking-wider bg-gradient-to-r from-[#1883FF] via-[#0051b3] to-[#1883FF] dark:from-[#1883FF] dark:via-white dark:to-[#1883FF] bg-clip-text text-transparent animate-gradient-text">
+              <a href="#" className="text-xl font-black tracking-wider bg-gradient-to-r from-[#0066cc] via-[#2997ff] to-[#0066cc] dark:from-[#2997ff] dark:via-white dark:to-[#2997ff] bg-clip-text text-transparent animate-gradient-text">
                 {t.nav.logo}
               </a>
               <div className="hidden md:flex space-x-8 text-sm font-bold text-slate-600 dark:text-slate-300">
@@ -599,8 +599,8 @@ const App = () => {
 
                   {/* Tali / Lanyard - Dibuat panjang agar ujungnya tidak terlihat meskipun ditarik */}
                   <div className="absolute bottom-full left-1/2 -translate-x-1/2 w-20 h-[50vh] z-0 pointer-events-none">
-                    <div className="absolute bottom-2 left-0 w-8 h-[1500px] bg-gradient-to-t from-[#1883FF] via-neutral-800 to-neutral-900 origin-bottom-left -rotate-[16deg] shadow-[inset_2px_0_4px_rgba(0,0,0,0.5)] dark:shadow-[inset_2px_0_4px_rgba(0,0,0,0.8)] rounded-sm"></div>
-                    <div className="absolute bottom-2 right-0 w-8 h-[1500px] bg-gradient-to-t from-[#1883FF] via-neutral-800 to-neutral-900 origin-bottom-right rotate-[16deg] shadow-[inset_-2px_0_4px_rgba(0,0,0,0.5)] dark:shadow-[inset_-2px_0_4px_rgba(0,0,0,0.8)] rounded-sm"></div>
+                    <div className="absolute bottom-2 left-0 w-8 h-[1500px] bg-gradient-to-t from-[#0066cc] dark:from-[#2997ff] via-neutral-800 to-neutral-900 origin-bottom-left -rotate-[16deg] shadow-[inset_2px_0_4px_rgba(0,0,0,0.5)] dark:shadow-[inset_2px_0_4px_rgba(0,0,0,0.8)] rounded-sm"></div>
+                    <div className="absolute bottom-2 right-0 w-8 h-[1500px] bg-gradient-to-t from-[#0066cc] dark:from-[#2997ff] via-neutral-800 to-neutral-900 origin-bottom-right rotate-[16deg] shadow-[inset_-2px_0_4px_rgba(0,0,0,0.5)] dark:shadow-[inset_-2px_0_4px_rgba(0,0,0,0.8)] rounded-sm"></div>
                   </div>
 
                   {/* Penjepit Baja / Klip - Diperbesar & Di Atas Kartu */}
@@ -645,7 +645,7 @@ const App = () => {
                     />
 
                     {/* Header ID Card - Gradasi Hitam Biru (Tanpa teks IDENTITY CARD) */}
-                    <div className="absolute top-0 left-0 w-full h-[70px] bg-gradient-to-r from-neutral-900 to-[#1883FF] flex flex-col items-center justify-end pb-4 shadow-sm">
+                    <div className="absolute top-0 left-0 w-full h-[70px] bg-gradient-to-r from-neutral-900 via-neutral-800 to-[#0066cc] dark:to-[#2997ff] flex flex-col items-center justify-end pb-4 shadow-sm">
                     </div>
 
                     {/* Lubang Lanyard untuk Klip */}
@@ -665,7 +665,7 @@ const App = () => {
 
                     {/* Posisi Animasi Ketik (Roles) di dalam ID Card */}
                     <div className="flex-1 flex items-start justify-center px-4 mt-2 w-full">
-                      <span className="text-xs md:text-sm font-bold text-[#1883FF] text-center typing-cursor leading-snug">
+                      <span className="text-xs md:text-sm font-bold text-[#0066cc] dark:text-[#2997ff] text-center typing-cursor leading-snug">
                         {roles[textIndex].substring(0, charIndex)}
                       </span>
                     </div>
@@ -688,7 +688,7 @@ const App = () => {
                 <h1 className="text-4xl md:text-5xl lg:text-6xl font-black mb-6 leading-tight text-slate-900 dark:text-white">
                   {t.hero.greeting} <br />
                   {/* Teks dengan Gradasi Animasi Sangat Lembut */}
-                  <span className="bg-gradient-to-r from-[#1883FF] via-[#52a5ff] to-[#0051b3] dark:from-[#52a5ff] dark:via-white dark:to-[#1883FF] bg-clip-text text-transparent animate-gradient-text pb-1 inline-block">
+                  <span className="bg-gradient-to-r from-[#0066cc] via-[#2997ff] to-[#0066cc] dark:from-[#2997ff] dark:via-white dark:to-[#2997ff] bg-clip-text text-transparent animate-gradient-text pb-1 inline-block">
                     Bubu Bukhori Muslim
                   </span>
                 </h1>
@@ -967,7 +967,7 @@ const App = () => {
                       onChange={handleFormChange}
                       required
                       placeholder={t.contact.nameHolder}
-                      className={`w-full px-5 py-4 rounded-xl border text-slate-900 dark:text-white placeholder-slate-400 dark:placeholder-slate-500 focus:outline-none transition-all font-medium ${isDark ? 'bg-white/5 border-white/20 focus:border-[#1883FF]' : 'bg-white/80 border-slate-400/70 focus:border-[#1883FF]'} focus:ring-2 focus:ring-[#1883FF]/30 dark:focus:ring-[#1883FF]/30`}
+                      className={`w-full px-5 py-4 rounded-xl border text-slate-900 dark:text-white placeholder-slate-400 dark:placeholder-slate-500 focus:outline-none transition-all font-medium ${isDark ? 'bg-white/5 border-white/20 focus:border-[#2997ff]' : 'bg-white/80 border-slate-400/70 focus:border-[#0066cc]'} focus:ring-2 focus:ring-[#0066cc]/30 dark:focus:ring-[#2997ff]/30`}
                     />
                     <input
                       type="email"
@@ -976,7 +976,7 @@ const App = () => {
                       onChange={handleFormChange}
                       required
                       placeholder={t.contact.emailHolder}
-                      className={`w-full px-5 py-4 rounded-xl border text-slate-900 dark:text-white placeholder-slate-400 dark:placeholder-slate-500 focus:outline-none transition-all font-medium ${isDark ? 'bg-white/5 border-white/20 focus:border-[#1883FF]' : 'bg-white/80 border-slate-400/70 focus:border-[#1883FF]'} focus:ring-2 focus:ring-[#1883FF]/30 dark:focus:ring-[#1883FF]/30`}
+                      className={`w-full px-5 py-4 rounded-xl border text-slate-900 dark:text-white placeholder-slate-400 dark:placeholder-slate-500 focus:outline-none transition-all font-medium ${isDark ? 'bg-white/5 border-white/20 focus:border-[#2997ff]' : 'bg-white/80 border-slate-400/70 focus:border-[#0066cc]'} focus:ring-2 focus:ring-[#0066cc]/30 dark:focus:ring-[#2997ff]/30`}
                     />
                     <input
                       type="text"
@@ -985,7 +985,7 @@ const App = () => {
                       onChange={handleFormChange}
                       required
                       placeholder={t.contact.subjectHolder}
-                      className={`w-full px-5 py-4 rounded-xl border text-slate-900 dark:text-white placeholder-slate-400 dark:placeholder-slate-500 focus:outline-none transition-all font-medium ${isDark ? 'bg-white/5 border-white/20 focus:border-[#1883FF]' : 'bg-white/80 border-slate-400/70 focus:border-[#1883FF]'} focus:ring-2 focus:ring-[#1883FF]/30 dark:focus:ring-[#1883FF]/30`}
+                      className={`w-full px-5 py-4 rounded-xl border text-slate-900 dark:text-white placeholder-slate-400 dark:placeholder-slate-500 focus:outline-none transition-all font-medium ${isDark ? 'bg-white/5 border-white/20 focus:border-[#2997ff]' : 'bg-white/80 border-slate-400/70 focus:border-[#0066cc]'} focus:ring-2 focus:ring-[#0066cc]/30 dark:focus:ring-[#2997ff]/30`}
                     />
                     <textarea
                       rows="4"
@@ -994,7 +994,7 @@ const App = () => {
                       onChange={handleFormChange}
                       required
                       placeholder={t.contact.msgHolder}
-                      className={`w-full px-5 py-4 rounded-xl border text-slate-900 dark:text-white placeholder-slate-400 dark:placeholder-slate-500 focus:outline-none transition-all resize-none font-medium ${isDark ? 'bg-white/5 border-white/20 focus:border-[#1883FF]' : 'bg-white/80 border-slate-400/70 focus:border-[#1883FF]'} focus:ring-2 focus:ring-[#1883FF]/30 dark:focus:ring-[#1883FF]/30`}
+                      className={`w-full px-5 py-4 rounded-xl border text-slate-900 dark:text-white placeholder-slate-400 dark:placeholder-slate-500 focus:outline-none transition-all resize-none font-medium ${isDark ? 'bg-white/5 border-white/20 focus:border-[#2997ff]' : 'bg-white/80 border-slate-400/70 focus:border-[#0066cc]'} focus:ring-2 focus:ring-[#0066cc]/30 dark:focus:ring-[#2997ff]/30`}
                     ></textarea>
 
                     <button type="submit" className={`w-full py-4 rounded-xl font-black shadow-lg transition-all hover:opacity-90 ${bgAccentClass}`}>
